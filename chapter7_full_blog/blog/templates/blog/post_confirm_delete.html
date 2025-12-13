@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Confirm delete</title></head><body>
+{% include 'blog/_base_nav.html' %}
+<h1>Delete "{{ post.title }}"?</h1>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Yes, delete</button>
+  <a href="{{ post.get_absolute_url }}">Cancel</a>
+</form>
+</body></html>

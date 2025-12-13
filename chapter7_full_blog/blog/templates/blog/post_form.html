@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Post form</title></head><body>
+{% include 'blog/_base_nav.html' %}
+<h1>{% if post %}Edit{% else %}Create{% endif %} Post</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+</body></html>

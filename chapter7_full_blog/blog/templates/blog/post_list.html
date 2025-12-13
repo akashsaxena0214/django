@@ -1,0 +1,40 @@
+{% load static %}
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Posts</title></head>
+<body>
+{% include 'blog/_base_nav.html' %}
+<h1>All Posts</h1>
+<div>
+  Categories:
+  {% for c in categories %}
+    <a href="?category={{ c.slug }}">{{ c.name }}</a>{% if not forloop.last %} | {% endif %}
+  {% empty %} No categories {% endfor %}
+</div>
+<hr>
+{% for post in posts %}
+  <article>
+    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+    <p>By {{ post.author }} • {{ post.created_at }}</p>
+    <p>{{ post.content|truncatechars:200 }}</p>
+    <p>Likes: {{ post.likes.count }} |
+       <a href="{% url 'post_like' post.slug %}">Toggle Like</a>
+    </p>
+  </article>
+  <hr>
+{% empty %}
+  <p>No posts yet.</p>
+{% endfor %}
+
+<div>
+  {% if posts.has_previous %}
+    <a href="?page={{ posts.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">Previous</a>
+  {% endif %}
+  Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+  {% if posts.has_next %}
+    <a href="?page={{ posts.next_page_number }}{% if q %}&q={{ q }}{% endif %}">Next</a>
+  {% endif %}
+</div>
+
+</body>
+</html>

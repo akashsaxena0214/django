@@ -1,0 +1,9 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Register</title></head><body>
+{% include 'blog/_base_nav.html' %}
+<h2>Register</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Sign up</button>
+</form>
+</body></html>

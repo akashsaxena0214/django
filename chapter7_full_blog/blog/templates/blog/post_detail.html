@@ -1,0 +1,40 @@
+<!doctype html>
+<html><head><meta charset='utf-8'><title>{{ post.title }}</title></head><body>
+{% include 'blog/_base_nav.html' %}
+<article>
+  <h1>{{ post.title }}</h1>
+  <p>By {{ post.author }} • {{ post.created_at }}</p>
+  <div>{{ post.content|linebreaks }}</div>
+  <p>Category: {{ post.category }}</p>
+  <p>Likes: {{ post.likes.count }} | <a href="{% url 'post_like' post.slug %}">Like/Unlike</a></p>
+  {% if user == post.author %}
+    <p><a href="{% url 'post_edit' post.slug %}">Edit</a> |
+       <a href="{% url 'post_delete' post.slug %}">Delete</a></p>
+  {% endif %}
+</article>
+
+<section>
+  <h3>Comments</h3>
+  {% for c in post.comments.all %}
+    <div>
+      <strong>{{ c.author }}</strong> · {{ c.created_at }}<br>
+      {{ c.body|linebreaks }}
+    </div>
+  {% empty %}
+    <p>No comments yet.</p>
+  {% endfor %}
+
+  {% if user.is_authenticated %}
+    <h4>Leave a comment</h4>
+    <form method="post">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Login</a> to comment.</p>
+  {% endif %}
+</section>
+
+<p><a href="/">Back</a></p>
+</body></html>
