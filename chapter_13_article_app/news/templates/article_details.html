@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ object.title }}</h1>
+<p>{{ object.body }}</p>
+
+{% if perms.news.change_article %}
+<a href="{% url 'article_edit' object.pk %}">Edit</a>
+{% endif %}
+
+{% if perms.news.delete_article %}
+<a href="{% url 'article_delete' object.pk %}">Delete</a>
+{% endif %}
+
+{% endblock %}
